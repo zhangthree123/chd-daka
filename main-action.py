@@ -37,20 +37,20 @@ def task(username, password, address, position, wxkey):
     
     # 登录
     driver.get(url_login)
-    time.sleep(2)
+    time.sleep(3)
     print(driver.title)
     while flag:
         try:
         # 偶尔莫名其妙进不去登录页面，只能多进几次试试了。。。
             if 'platform' in driver.title or '平台' in driver.title:
                 driver.find_element(By.XPATH, '//*[@id="username"]').send_keys(username)
-                time.sleep(2)
+                time.sleep(3)
                 driver.find_element(By.XPATH, '//*[@id="password"]').send_keys(password,Keys.ENTER)
-                time.sleep(2)
+                time.sleep(3)
                 break
             else:
                 driver.get(url_login)
-                time.sleep(2)
+                time.sleep(3)
         except Exception as e:
             output_data += f'\n\n- 登录出错，正在重试😣...'
 
@@ -80,14 +80,14 @@ def task(username, password, address, position, wxkey):
             'longitude': position['longitude'],
             'accuracy': position['accuracy']
         })
-        time.sleep(2)
+        time.sleep(3)
         try:
             # 模拟点击获取地理位置
             area = WebDriverWait(driver, 15).until(
                 EC.element_to_be_clickable((By.XPATH, '//*[@id="xxdz41"]'))
             )
             area.click()
-            time.sleep(3)
+            time.sleep(4)
             output_data += '\n\n- 位置获取成功...'
             WebDriverWait(driver, 15).until(
                 EC.element_to_be_clickable((By.XPATH, '//*[@id="app"]/div[2]/form/div[3]/div[2]/div/span/div[2]'))
@@ -104,7 +104,7 @@ def task(username, password, address, position, wxkey):
             )
             
             commit.click()
-            time.sleep(2)
+            time.sleep(3)
             output_data += "\n\n- 提交成功😝..."
             print(f"第{a}次打卡成功😎...")
             # 打卡结果信息
@@ -122,7 +122,7 @@ def task(username, password, address, position, wxkey):
             text = f"{username}打卡失败🙃,请自行打卡"
             try:
                 driver.refresh()
-                time.sleep(2)
+                time.sleep(3)
                 status = driver.find_element(By.XPATH, '//*[@id="app"]/div/div[2]/div').text
                 if status == '该时间为非打卡时间' or status == '上级部门已确认':
                     text = f"{username}打卡失败🙃,未到打卡时间"
